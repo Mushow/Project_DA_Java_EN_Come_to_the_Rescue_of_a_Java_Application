@@ -1,43 +1,32 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * @author mushow
+ */
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+    /**
+     * The application's entry point.
+     *
+     * @param args an array of command-line arguments for the application.
+     */
+    public static void main(String[] args) {
+		//Read all symptoms and store them in a list
+        String fileToRead = "Project02Eclipse/symptoms.txt";
+        SymptomsReader symptomsReader = new SymptomsReader(fileToRead);
+		List<String> symptomsList = symptomsReader.getSymptoms();
 
-			line = reader.readLine();	// get another symptom
-		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+		//Count the occurrences of symptoms and sort the list
+		SymptomsCounter listerCounter = new SymptomsCounter(symptomsList);
+		Map<String, Long> listedCountedList = listerCounter.countSymptoms();
+
+		//Write the Map of symptoms/count to the file
+        String fileToWrite = "result.out";
+        SymptomsWriter symptomsWriter = new SymptomsWriter(fileToWrite);
+		symptomsWriter.writeSymptoms(listedCountedList);
 	}
+
 }
