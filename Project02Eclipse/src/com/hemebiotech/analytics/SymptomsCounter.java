@@ -1,32 +1,46 @@
 package com.hemebiotech.analytics;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 public class SymptomsCounter implements ISymptomCounter {
 
-    private final List<String> symptomsList;
+    private List<String> symptomsList;
 
     /**
-     * Constructor of SymptomsCounter.
-     *
-     * @param symptomsList pass the symptomsList to count.
+     * Count the symptoms from the list.
+     * @return a Map of String/Integer representing Symptoms/Count.
      */
-    public SymptomsCounter(List<String> symptomsList) {
-        this.symptomsList = symptomsList;
+    @Override
+    public Map<String, Integer> countSymptoms() {
+        Map<String, Integer> symptomCountMap = new HashMap<>();
+        for (String symptom : symptomsList) {
+            symptomCountMap.put(symptom, symptomCountMap.getOrDefault(symptom, 0) + 1);
+        }
+
+        symptomCountMap = sortSymptoms(symptomCountMap);
+        return symptomCountMap;
     }
 
     /**
-     * Count symptoms using the Java 8 StreamAPI and method reference.
-     *
-     * @return a Map of String/Long representing Symptoms/Count.
+     * Sort a Map using TreeMap.
+     * @param originalMap an unsorted Map.
+     * @return a sorted Map of String/Integer representing Symptoms/Count.
      */
     @Override
-    public Map<String, Long> countSymptoms() {
-        return symptomsList.stream()
-                .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
+    public Map<String, Integer> sortSymptoms(Map<String, Integer> originalMap) {
+        return new TreeMap<>(originalMap);
+    }
+
+    /**
+     * Set the list of symptoms.
+     * @param symptomsList a list of symptoms.
+     */
+    @Override
+    public void setSymptomsList(List<String> symptomsList) {
+        this.symptomsList = symptomsList;
     }
 }
