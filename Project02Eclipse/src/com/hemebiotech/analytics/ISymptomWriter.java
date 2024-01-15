@@ -10,6 +10,7 @@ public interface ISymptomWriter {
      *
      * @param symptomsCount a map where keys are symptoms (String) and values are counts (Long).
      */
+  
     void writeSymptoms(Map<String, Integer> symptomsCount);
 
 }
