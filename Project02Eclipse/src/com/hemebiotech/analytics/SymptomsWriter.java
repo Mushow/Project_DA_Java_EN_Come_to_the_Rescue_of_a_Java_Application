@@ -24,11 +24,11 @@ public class SymptomsWriter implements ISymptomWriter {
      * @param symptomsCount the HashMap with key/value, a pair of symptoms name/counter.
      */
     @Override
-    public void writeSymptoms(Map<String, Long> symptomsCount) {
+    public void writeSymptoms(Map<String, Integer> symptomsCount) {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(filePath);
-            for (Map.Entry<String, Long> entry : symptomsCount.entrySet()) {
+            for (Map.Entry<String, Integer> entry : symptomsCount.entrySet()) {
                 String newSymptom = entry.getKey() + " = " + entry.getValue() + "\n";
                 fileWriter.write(newSymptom);
             }

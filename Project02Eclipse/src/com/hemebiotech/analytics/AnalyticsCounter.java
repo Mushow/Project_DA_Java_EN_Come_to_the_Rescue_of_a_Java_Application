@@ -8,25 +8,32 @@ import java.util.Map;
  */
 public class AnalyticsCounter {
 
+    private final ISymptomReader iSymptomReader;
+    private final ISymptomCounter iSymptomCounter;
+    private final ISymptomWriter iSymptomWriter;
+
     /**
-     * The application's entry point.
-     *
-     * @param args an array of command-line arguments for the application.
+     * Constructor of AnalyticsCounter to instantiate the interfaces
+     * @param iSymptomReader an interface of SymptomsReader
+     * @param iSymptomCounter an interface of SymptomsCounter
+     * @param iSymptomWriter an interface of SymptomsWriter
      */
-    public static void main(String[] args) {
-		//Read all symptoms and store them in a list
-        String fileToRead = "Project02Eclipse/symptoms.txt";
-        SymptomsReader symptomsReader = new SymptomsReader(fileToRead);
-		List<String> symptomsList = symptomsReader.getSymptoms();
+
+    public AnalyticsCounter(ISymptomReader iSymptomReader, ISymptomCounter iSymptomCounter, ISymptomWriter iSymptomWriter) {
+        this.iSymptomReader = iSymptomReader;
+        this.iSymptomCounter = iSymptomCounter;
+        this.iSymptomWriter = iSymptomWriter;
+    }
+
+    public void main() {
+		List<String> symptomsList = this.iSymptomReader.getSymptoms();
+        this.iSymptomCounter.setSymptomsList(symptomsList);
 
 		//Count the occurrences of symptoms and sort the list
-		SymptomsCounter listerCounter = new SymptomsCounter(symptomsList);
-		Map<String, Long> listedCountedList = listerCounter.countSymptoms();
+		Map<String, Integer> listedCountedList = iSymptomCounter.countSymptoms();
 
 		//Write the Map of symptoms/count to the file
-        String fileToWrite = "result.out";
-        SymptomsWriter symptomsWriter = new SymptomsWriter(fileToWrite);
-		symptomsWriter.writeSymptoms(listedCountedList);
+		this.iSymptomWriter.writeSymptoms(listedCountedList);
 	}
 
 }
