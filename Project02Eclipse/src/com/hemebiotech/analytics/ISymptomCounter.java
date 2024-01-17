@@ -10,23 +10,6 @@ public interface ISymptomCounter {
      *
      * @return a map where keys are symptoms (String) and values are counts (Integer).
      */
-    Map<String, Integer> countSymptoms();
-
-
-    /**
-     * Sort a list of symptoms alphabetically from a given HashMap
-     *
-     * @param listedCountedList a given unsorted HashMap
-     * @return a sorted map where keys are symptoms (String) and values are counts (Integer).
-     */
-    Map<String, Integer> sortSymptoms(Map<String, Integer> listedCountedList);
-
-
-    /**
-     * Setter to the symptomsList attribute
-     *
-     * @param symptomsList a list of symptoms
-     */
-    void setSymptomsList(List<String> symptomsList);
+    Map<String, Integer> countSymptoms(List<String> symptomsList);
 
 }

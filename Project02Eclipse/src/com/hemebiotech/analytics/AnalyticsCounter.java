@@ -27,10 +27,9 @@ public class AnalyticsCounter {
 
     public void main() {
 		List<String> symptomsList = this.iSymptomReader.getSymptoms();
-        this.iSymptomCounter.setSymptomsList(symptomsList);
 
 		//Count the occurrences of symptoms and sort the list
-		Map<String, Integer> listedCountedList = iSymptomCounter.countSymptoms();
+		Map<String, Integer> listedCountedList = iSymptomCounter.countSymptoms(symptomsList);
 
 		//Write the Map of symptoms/count to the file
 		this.iSymptomWriter.writeSymptoms(listedCountedList);
